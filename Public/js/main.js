@@ -17,18 +17,32 @@ $(document).ready(function() {
 
     $('.amountProductCart').on('change', function() {
         var productId = $(this).data('id');
-        var newAmount = $(this).val();      
-
+        var newAmount = parseInt($(this).val());
+        var price = parseInt($(this).attr('data-price'));
+    
         $.ajax({
             url: './cart/updateCart',
             method: 'POST',
+            dataType: 'json',
             data: {
                 id: productId,
-                soluong: newAmount
+                soluong: newAmount,
+                price: price
             },
-            success: function(response) {}
-            ,
-            error: function() {}
+            success: function(response) {
+                const formattedPrice = (newAmount * price).toLocaleString('vi-VN') + " VND";
+                $('#totalPrice_' + productId).html(formattedPrice);
+                let totalPrice = 0;
+                $('.amountProductCart').each(function() {
+                    var amount = parseInt($(this).val());
+                    var price = parseInt($(this).attr('data-price'));
+                    totalPrice += (amount * price);
+                });
+                $('#totalCartPrice').html(totalPrice.toLocaleString('vi-VN') + " VND");
+            },
+            error: function() {
+                console.error("Đã xảy ra lỗi trong quá trình cập nhật giỏ hàng.");
+            }
         });
     });
 

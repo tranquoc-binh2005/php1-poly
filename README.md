@@ -1,4 +1,4 @@
-link github: https://github.com/tranquoc-binh2005/php1.git
+link github: https://github.com/tranquoc-binh2005/php1-poly.git
 import database by terminal: mysql -u [username] -p [database_name] < database_dump.sql
 
 

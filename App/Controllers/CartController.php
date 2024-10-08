@@ -10,18 +10,30 @@ class CartController extends Controller
     
     public function addCart($id)
     {
-        if($_SERVER['REQUEST_METHOD'] == "POST"){
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $ProductModel = $this->model("ProductModel");
             $amount = $_POST['soluong'];
 
-            if ($data = $ProductModel->getOneProduct($id)) {
-                if (!$this->isProductInCart($id)) {
+            $ProductModel->setId($id);
+            if ($data = $ProductModel->getOneProduct()) {
+                $productExists = false;
+
+                foreach ($_SESSION['cart'] as &$item) {
+                    if ($item['id'] == $id) {
+                        $item['soluong'] += $amount;
+                        $productExists = true;
+                        break;
+                    }
+                }
+                unset($item); 
+                if (!$productExists) {
                     $data['soluong'] = $amount;
                     $_SESSION['cart'][] = $data;
                 }
             }
 
             header("location: /php1/cart");
+            exit();
         }
     }
 
@@ -30,16 +42,18 @@ class CartController extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = $_POST['id'];
             $newAmount = $_POST['soluong'];
+            $price = $_POST['price'];
 
             if (isset($_SESSION['cart'])) {
                 foreach ($_SESSION['cart'] as &$item) {
                     if ($item['id'] == $id) {
                         $item['soluong'] = $newAmount;
+                        $priceNew = $newAmount * $price;
                         break;
                     }
                 }
             }
-            echo json_encode(['status' => 'success', 'message' => 'Cart updated']);
+            echo json_encode(['status' => 'success', 'message' => 'Cart updated', 'price' => $priceNew]);
             exit;
         }
     }

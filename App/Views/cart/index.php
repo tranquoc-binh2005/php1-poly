@@ -20,7 +20,6 @@
                       </ul>';
             } else {
                 foreach ($_SESSION['cart'] as $cart) {
-                    // print_r($_SESSION['cart']);
                     $total = (int)($cart['soluong'] * $cart['price']);
                     $totalPrice += $total;
                     echo '<ul>
@@ -34,9 +33,9 @@
                                 '.number_format($cart['price'], 0, ',', '.'). " VND".'
                             </li>
                             <li>
-                                <input style="width: 30px;" data-id="'.$cart["id"].'" class="amountProductCart" type="number" value="'.$cart["soluong"].'" min="1">
+                                <input style="width: 30px;" data-id="'.$cart["id"].'" data-price="'.$cart['price'].'" class="amountProductCart" type="number" value="'.$cart["soluong"].'" min="1">
                             </li>
-                            <li>
+                            <li id="totalPrice_'.$cart['id'].'">
                                 '.number_format($total, 0, ',', '.'). " VND".'
                             </li>
                             <li>
@@ -53,9 +52,9 @@
         <section>
             <ul>
                 <li>Tổng</li>
-                <?php
-                echo '<li>'.number_format($totalPrice, 0, ',', '.'). " VND".'</li>';
-                ?>
+                <li id="totalCartPrice">
+                    <?php echo number_format($totalPrice, 0, ',', '.') . " VND"; ?>
+                </li>
             </ul>
         </section>
         <section>

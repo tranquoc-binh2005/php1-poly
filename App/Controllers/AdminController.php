@@ -60,7 +60,7 @@ class AdminController extends Controller
     public function index()
     {
         $this->data['pageTitle'] = "Trang quan ly"; 
-        $this->data['path'] = "dashboard/home"; 
+        $this->data['path'] = "dashboard/dashboard"; 
         $this->view('backend/dashboard/index', $this->data);
     }
 
@@ -189,10 +189,10 @@ class AdminController extends Controller
         $this->data['path'] = "dashboard/bill"; 
         $this->view('backend/dashboard/index', $this->data);
     }
-    public function baiviet()
+    public function voucher()
     {
-        $this->data['pageTitle'] = "Trang quan ly don hang"; 
-        $this->data['path'] = "dashboard/baiviet"; 
+        $this->data['pageTitle'] = "Trang quan ly ma giam gia"; 
+        $this->data['path'] = "dashboard/voucher"; 
         $this->view('backend/dashboard/index', $this->data);
     }
 

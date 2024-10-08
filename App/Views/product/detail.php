@@ -7,7 +7,7 @@
     <form action="./cart/addCart/<?=$product['id']?>" id="formAddCart" method="post">
         <div class="prd-adam">
             <section>
-                <img src="./Public/uploads/<?=$product['img']?>" alt="">
+                <img src="./Public/uploads/<?=$product['img']?>" alt="hinh anh dang bi loi">
             </section>
                 <section class="price-prd">
                     <h2><?=$product['name']?></h2>

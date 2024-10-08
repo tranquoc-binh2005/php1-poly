@@ -12,7 +12,11 @@ class ProductController extends Controller
     public function detail($id)
     {
         $ProductModel = $this->model("ProductModel");
-        $this->data['product'] = $ProductModel->getOneProduct($id);
+        $ProductModel->setId($id);
+            
+        $product = $ProductModel->getOneProduct();
+
+        $this->data['product'] = $product;
 
         $this->data['getRelatedProducts'] = $ProductModel->getRelatedProducts($this->data['product']['categories'], $id);
 
