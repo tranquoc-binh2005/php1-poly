@@ -191,10 +191,105 @@ class AdminController extends Controller
     }
     public function voucher()
     {
+        $VoucherModel = $this->model("VoucherModel");
+        $this->data['listVoucher'] = $VoucherModel->getAllVoucher();
         $this->data['pageTitle'] = "Trang quan ly ma giam gia"; 
         $this->data['path'] = "dashboard/voucher"; 
         $this->view('backend/dashboard/index', $this->data);
     }
+
+    public function createVoucher()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST"){
+            $name = $_POST['name'];
+            $slug = $_POST['slug'];
+            $deal = $_POST['deal'];
+            $created = $_POST['created'];
+            $dated = $_POST['dated'];
+
+            $VoucherModel = $this->model("VoucherModel");
+
+            $VoucherModel->setName($name);
+            $VoucherModel->setSlug($slug);
+            $VoucherModel->setDeal($deal);
+            $VoucherModel->setDayCreate($created);
+            $VoucherModel->setDayDated($dated);
+            if ($VoucherModel->createVoucher()) {
+                alertSuccess("Thành công", "Tao ma giam gia thanh cong!","../admin/voucher");
+            } else {
+                echo "Lỗi";
+            }
+        }
+    }
+
+    public function delVoucher($id)
+    {
+        if(isset($id)){
+            $pathSuccess = "../../admin/destroyVoucher/". $id;
+            $pathError = "../../admin/voucher";
+            delete("Cảnh báo", "Bạn có muốn xoá ban ghi này!", $pathSuccess, $pathError);
+        } else {
+            echo "khong tim thay id";
+        }
+    }
+
+    public function destroyVoucher($id)
+    {
+        if (isset($id)) {
+            $VoucherModel = $this->model("VoucherModel");
+            $VoucherModel->setId($id);
+
+            if ($VoucherModel->deleteVoucher()) {
+                alertSuccess("Thành công", "Xóa bản ghi thành công", "../../admin/voucher");
+            } else {
+                alertError("Thất bại", "Không thể xóa bản ghi. Vui lòng thử lại.", "../../admin/voucher");
+            }
+        } else {
+            alertError("Thất bại", "ID bản ghi không hợp lệ", "../../admin/voucher");
+        }
+    }
+
+    public function editVoucher()
+    {
+        if(isset($_POST['voucher_id']) && ($_POST['voucher_id'])){
+            $voucher_id = $_POST['voucher_id'];
+
+            $VoucherModel = $this->model("VoucherModel");
+            $VoucherModel->setID($voucher_id);
+            $voucher = $VoucherModel->getOneVoucher($voucher_id);
+            if ($voucher) {
+                echo json_encode($voucher);
+            } else {
+                echo json_encode(['error' => 'Voucher not found.']);
+            }
+        } else {
+            echo json_encode(['error' => 'Invalid Voucher ID.']);
+        }
+    }
+
+    public function handleUpdateVoucher()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST"){
+            $name = $_POST['nameVoucherEdit'];
+            $id = $_POST['idVoucherEdit'];
+            $slug = $_POST['slugVoucherEdit'];
+            $deal = $_POST['dealVoucherEdit'];
+
+            $VoucherModel = $this->model("VoucherModel");
+            $VoucherModel->setId($id);
+            $VoucherModel->setName($name);
+            $VoucherModel->setSlug($slug);
+            $VoucherModel->setDeal($deal);
+            if($VoucherModel->updateVoucher()){
+                $pathSuccess = "../admin/voucher";
+                alertSuccess("Thành công", "Ban ghi đã được cập nhật", $pathSuccess);
+            } else {
+                $pathError = "../admin/voucher";
+                alertError("Thất bại", "Có lỗi trong quá trình cập nhật", $pathError);
+            }
+        }
+    }
+
 
     public function createProduct()
     {

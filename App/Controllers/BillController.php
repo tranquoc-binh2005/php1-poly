@@ -12,6 +12,9 @@ class BillController extends Controller
     {
         $AddressModel = $this->model("AddressModel");
         $this->data['listProvince'] = $AddressModel->getProvince();
+
+        $VoucherModel = $this->model("VoucherModel");
+        $this->data['listVoucher'] = $VoucherModel->getAllVoucherDated();
         $this->data['path'] = 'bill/index';
         $this->data['pageTitle'] = "Thanh toán"; 
         $this->view('home/index', $this->data);
@@ -56,29 +59,46 @@ class BillController extends Controller
     public function getBill()
     {
         if($_SERVER['REQUEST_METHOD'] == "POST"){
+            $AddressModel = $this->model("AddressModel");
+
             $province_id = $_POST['province'];
+            $provinceName = $AddressModel->getNameProvince($province_id);
             $district_id = $_POST['district'];
+            $districtName = $AddressModel->getNameDistrict($district_id);
             $ward_id = $_POST['ward'];
+            $wardName = $AddressModel->getNameWard($ward_id);
             $address = $_POST['address'];
-            $fullAddress = $address . ', ' . $ward_id . ', ' . $district_id . ', ' . $province_id;
+            $fullAddress = $address . ', ' . $wardName['name'] . ', ' . $districtName['name'] . ', ' . $provinceName['name'];
 
             $lastname = $_POST['lastname'];
             $firstname = $_POST['firstname'];
             $name = $lastname . " " . $firstname;
             $phone = $_POST['phone'];
             $hinhthucthanhtoan = $_POST['hinhthucthanhtoan'];
+            $tongtien = $_POST['tongtien'];
 
             $BillModel = $this->model("BillModel");
-            $lastId = $BillModel->createBill($name, $fullAddress, $phone, 1000000);
+            $lastId = $BillModel->createBill($name, $fullAddress, $phone, $tongtien);
             if($lastId){
                 foreach ($_SESSION['cart'] as $key => $value) {
                     $BillModel->createBillDetails($lastId, $value['name'], $value['soluong'], $value['price']);
-                    unset($_SESSION['cart']);
                 }
-                alertSuccess("Thanh cong", "", "../home");
+                alertSuccess("Thanh cong", "", "../Mail/sendmail.php");
             } else {
                 echo "loi insert";
             }
+        }
+    }
+
+    public function caculateTotal()
+    {
+        if (isset($_POST['total']) && isset($_POST['deal'])) {
+            $total = (float)$_POST['total'];
+            $deal = (float)$_POST['deal'];
+        
+            $discountedTotal = $total - ($total * $deal / 100);
+        
+            echo json_encode(['total' => number_format($discountedTotal, 0, ',', '.') . " VND", 'totalNum' => $discountedTotal]);
         }
     }
 }

@@ -29,4 +29,14 @@ class Controller
         }
     }
 
+    public function mail($path, $data = [])
+    {
+        if (file_exists('Mail/' . $path . '.php')) {
+            extract($data);
+            require_once 'Mail/' . $view . '.php';
+        } else {
+            die("View không tồn tại");
+        }
+    }
+
 }

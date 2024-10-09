@@ -122,6 +122,24 @@ $(document).ready(function() {
             $('#ward_id').html('<option value="">Chọn Phường/Xã</option>');
         }
     });
-    
-    
+
+    let total = $("#tongtien").val();
+
+    $('input[name="btnAddVoucher"]').on('change', function() {
+        let deal = $(this).data('deal');
+
+        $.ajax({
+            url: './bill/caculateTotal',
+            type: 'POST',
+            data: {
+                total: total,
+                deal: deal
+            },
+            success: function(response) {
+                let result = JSON.parse(response);
+                $('#tongtienthanhtoan').text('Tổng tiền: ' + result.total);
+                $('#tongtien').val(result.totalNum);
+            }
+        });
+    });
 });

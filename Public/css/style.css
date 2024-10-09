@@ -1432,12 +1432,35 @@ h2 {
   cursor: pointer;
 }
 
-.featured-programs {
-  margin-top: 300px;
-}
-
 .featured-programs img {
   width: 100%;
   height: auto;
   margin-bottom: 10px;
+}
+
+
+
+/* CSS cho phần hiển thị đơn hàng */
+.order-summary {
+    border: 2px solid black; /* Màu viền nổi bật */
+    border-radius: 8px; /* Bo góc cho khung */
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tạo bóng cho khung */
+}
+
+.order-summary h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.order-item {
+    margin: 10px 0;
+    padding: 10px;
+    border-bottom: 1px solid black; /* Viền chia mỗi sản phẩm */
+}
+
+.order-item:last-child {
+    border-bottom: none; /* Bỏ viền cho sản phẩm cuối */
 }

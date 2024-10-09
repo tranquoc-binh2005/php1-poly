@@ -1,5 +1,5 @@
-<div class="container-bill">
-    <form action="./bill/getBill" method="post">
+<form action="./bill/getBill" method="post">
+    <div class="container-bill">
         <div class="left-panel">
             <nav>
                 <a href="#">Cart</a> &gt;
@@ -58,9 +58,6 @@
                     </div>
             </section>
             <section class="gift-service">
-                <?php
-                // print_r($_SESSION['cart'])
-                ?>
                 <h2>Hình thức thanh toán</h2>
                 <select style="width:100%;" name="hinhthucthanhtoan" id="" required>
                     <option value="momo">Momo</option>
@@ -70,20 +67,42 @@
             <button type="submit" style="margin-left: 530px;" class="btn">Tiếp tục tới trang thanh toán</button>
             <p style="margin-top: -30px;">Thoát</p>
         </div>
-    </form>
     <div class="right-panel">
-        <section class="voucher">
-            <h2>Voucher</h2>
-            <div class="voucher-code">
-                <p>USER50K</p>
-                <p>VOUCHER 50K CHO KHÁCH HÀNG ĐĂNG NHẬP TÀI KHOẢN</p>
-                <button class="apply-btn">Đang áp dụng</button>
+    <section class="voucher">
+        <h2>Voucher</h2>
+        <?php
+            foreach ($listVoucher as $key => $value) {
+                echo '<div class="voucher-code mt-02">
+                        <p>'.$value['name'].'</p>
+                        <p>'.$value['deal'].'%</p>
+                        <input type="radio" name="btnAddVoucher" class="apply-btn" data-deal="'.$value['deal'].'">
+                    </div>';
+            }
+        ?>
+        <br> <hr> <hr>
+        <section class="featured-programs">
+            <div class="order-summary">
+                <h2>Đơn hàng chuẩn bị thanh toán</h2>
+                <?php
+                $total = 0;
+                foreach ($_SESSION['cart'] as $key => $value) {
+                    $total += $value['price'] * $value['soluong'];
+                    echo '<div class="order-item">
+                            <p>Tên sản phẩm: '.$value['name'].'</p>
+                            <p>Giá: '.number_format($value['price'], 0 , ',', '.')." VND".'</p>
+                            <p>Số lượng: '.$value['soluong'].'</p>
+                        </div>';
+                }
+                ?>
+                <p id="tongtienthanhtoan">Tổng tiền:
+                    <?php
+                    echo number_format($total, 0, ',', '.')." VND";
+                    ?>
+                </p>
+                <input type="hidden" name="tongtien" id="tongtien" value="<?=$total?>"> 
             </div>
         </section>
-        <section class="featured-programs">
-            <h2>Chương trình nổi bật</h2>
-            <img src="https://thanhnien.mediacdn.vn/uploaded/dieutrang.qc/2021_08_27/levent/levents-4_MNTN.jpg?width=500"
-                alt="">
-        </section>
+    </section>
     </div>
 </div>
+</form>

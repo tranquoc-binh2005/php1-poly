@@ -94,6 +94,37 @@ $(document).ready(function() {
             });
         });
     }
+    function showValueEditVoucher() {
+        $(document).on("click", ".btnEditVoucher", function (e) {
+            e.preventDefault();
+            const voucher_id = $(this).attr("id");
+    
+            $.ajax({
+                url: "./admin/editVoucher",
+                method: "POST",
+                data: { voucher_id: voucher_id },
+                success: function(response) {
+                    try {
+                        const data = JSON.parse(response);
+                        if (!data.error) {
+                            $("#nameVoucherEdit").val(data.name); 
+                            $("#idVoucherEdit").val(data.id); 
+                            $("#slugVoucherEdit").val(data.slug); 
+                            $("#dealVoucherEdit").val(data.deal); 
+                            $("#updateVoucher").modal("show");
+                        } else {
+                            alert(data.error);
+                        }
+                    } catch (error) {
+                        console.error("Error parsing JSON: ", error);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error fetching category data: ", textStatus, errorThrown);
+                }
+            });
+        });
+    }
 
     function reviewImageEditProduct(){
         $("#imgProductEdit").on("change", function() {
@@ -117,5 +148,6 @@ $(document).ready(function() {
     showValueEditCategories();
     showValueEditProduct();
     reviewImageEditProduct();
+    showValueEditVoucher();
 });
 
