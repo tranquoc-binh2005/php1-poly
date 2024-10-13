@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 02, 2024 at 11:32 AM
+-- Generation Time: Oct 14, 2024 at 01:09 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -33,6 +33,7 @@ CREATE TABLE `bill` (
   `phone` varchar(15) NOT NULL,
   `address` varchar(255) NOT NULL,
   `total` decimal(10,2) NOT NULL,
+  `status` enum('chuaxn','danggh','dagh','huygh') NOT NULL DEFAULT 'chuaxn',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -40,13 +41,17 @@ CREATE TABLE `bill` (
 -- Dumping data for table `bill`
 --
 
-INSERT INTO `bill` (`id`, `name`, `phone`, `address`, `total`, `created_at`) VALUES
-(1, 'tran binh', '0949652939', '123 to ky quan 21', 1000000.00, '2024-09-27 02:27:01'),
-(2, 'tran binh', '0949652939', '123 to ky quan 21, 629, 34, 2', 1000000.00, '2024-09-27 02:28:35'),
-(4, 'abc abc', '123', '123 to ky, 1238, 70, 6', 1000000.00, '2024-09-27 02:31:09'),
-(5, 'test test', '123456', '1233333 abc, 735, 40, 2', 1000000.00, '2024-09-27 02:32:23'),
-(6, 'test test', '123456', '1233333 abc, 735, 40, 2', 1000000.00, '2024-09-27 02:34:07'),
-(7, 'vest vest', '123', '123 to ky, 1061, 61, 5', 1000000.00, '2024-09-27 02:34:42');
+INSERT INTO `bill` (`id`, `name`, `phone`, `address`, `total`, `status`, `created_at`) VALUES
+(31, 'tran quoc binh', '0949652939', '12a Ba Lao, Xã Thắng Mố, Huyện Yên Minh,  Hà Giang', 2899120.00, 'huygh', '2024-10-09 01:34:34'),
+(32, '123 vest', '111', '222, Xã Cốc Pàng, Huyện Bảo Lạc,  Cao Bằng', 429140.00, 'danggh', '2024-10-09 01:43:25'),
+(33, '123 123', '0949652939', '222, Xã Thượng Giáp, Huyện Na Hang,  Tuyên Quang', 13440000.00, 'danggh', '2024-10-11 01:22:27'),
+(34, 'tran binh', '0949652939', '222, Xã Bộc Bố, Huyện Pác Nặm,  Bắc Kạn', 13440000.00, 'dagh', '2024-10-11 01:23:22'),
+(35, '123 binh', '0949652939', 'le van khuong, Xã Công Bằng, Huyện Pác Nặm,  Bắc Kạn', 20160000.00, 'huygh', '2024-10-11 01:33:56'),
+(36, '123 binh', '0949652939', '123 to ky quan 21, Xã Khuôn Hà, Huyện Lâm Bình,  Tuyên Quang', 24000000.00, 'danggh', '2024-10-11 01:36:07'),
+(37, '123 123', '123', '2, Xã Minh Khương, Huyện Hàm Yên,  Tuyên Quang', 201600.00, 'danggh', '2024-10-11 01:38:47'),
+(38, 'a a', '0949652939', '123 to ky quan 21, Xã Trung Trực, Huyện Yên Sơn,  Tuyên Quang', 15900000.00, 'huygh', '2024-10-11 01:40:57'),
+(39, 'tran binh', '0949652939', 'abc, Xã Bộc Bố, Huyện Pác Nặm,  Bắc Kạn', 838320.00, 'chuaxn', '2024-10-11 03:58:38'),
+(40, 'tran quoc binh', '0949652939', '123 to ky quan 21, Xã Chung Chải, Huyện Mường Nhé,  Điện Biên', 11760000.00, 'danggh', '2024-10-11 04:01:54');
 
 -- --------------------------------------------------------
 
@@ -67,9 +72,22 @@ CREATE TABLE `bill_details` (
 --
 
 INSERT INTO `bill_details` (`id`, `bill_id`, `product_name`, `quantity`, `price`) VALUES
-(1, 6, 'Áo sơ mi mẫu 1', 4, 120000.00),
-(2, 6, 'Áo sơ mi mẫu 3', 2, 209000.00),
-(3, 7, 'Áo vest nam mẫu 4', 2, 9000000.00);
+(34, 31, 'Áo vest nam mẫu 2', 1, 3900000.00),
+(35, 31, 'Áo sơ mi mẫu 2', 1, 200000.00),
+(36, 31, 'Quần tây mẫu 1', 3, 359000.00),
+(37, 32, 'Quần tây mẫu 2', 1, 499000.00),
+(38, 33, 'Áo vest nam mẫu 3', 1, 12000000.00),
+(39, 33, 'Áo vest nam mẫu 5', 1, 12000000.00),
+(40, 34, 'Áo vest nam mẫu 3', 1, 12000000.00),
+(41, 34, 'Áo vest nam mẫu 5', 1, 12000000.00),
+(42, 35, 'Áo vest nam mẫu 3', 3, 12000000.00),
+(43, 36, 'Áo vest nam mẫu 3', 2, 12000000.00),
+(44, 37, 'Áo sơ mi mẫu 1', 3, 120000.00),
+(45, 38, 'Áo vest nam mẫu 2', 1, 3900000.00),
+(46, 38, 'Áo vest nam mẫu 5', 1, 12000000.00),
+(47, 39, 'Quần tây mẫu 2', 3, 499000.00),
+(48, 40, 'Áo vest nam mẫu 1', 2, 4500000.00),
+(49, 40, 'Áo vest nam mẫu 5', 1, 12000000.00);
 
 -- --------------------------------------------------------
 
@@ -856,8 +874,7 @@ INSERT INTO `product` (`id`, `name`, `categories`, `price`, `description`, `img`
 (20, 'Quần tây mẫu 2', 8, 499000, 'Chi tiết sản phẩm quần tây mẫu 2', '66f35d26842c2.jpeg', 0.00, 'public', 33, 0, '2024-09-25 00:45:26', '0000-00-00 00:00:00'),
 (21, 'Áo sơ mi mẫu 1', 4, 120000, 'Chi tiết sản phẩm áo sơ mi mẫu 1', '66f35d525019f.jpeg', 0.00, 'public', 555, 0, '2024-09-25 00:46:10', '0000-00-00 00:00:00'),
 (22, 'Áo sơ mi mẫu 2', 4, 200000, 'Chi tiết sản phẩm áo sơ mi mẫu 2', '66f35d686c818.jpeg', 0.00, 'public', 222, 0, '2024-09-25 00:46:32', '0000-00-00 00:00:00'),
-(23, 'Áo sơ mi mẫu 3', 4, 209000, 'Chi tiết sản phẩm áo sơ mi mẫu 3', '66f35d899c6d9.jpeg', 0.00, 'public', 2221, 0, '2024-09-25 00:47:05', '0000-00-00 00:00:00'),
-(25, 'abc', 9, 123344, 'bbcbhhds', '66f62c5633973.png', 0.00, 'public', 123, 0, '2024-09-27 03:53:58', '0000-00-00 00:00:00');
+(23, 'Áo sơ mi mẫu 3', 4, 209000, 'Chi tiết sản phẩm áo sơ mi mẫu 3', '66f35d899c6d9.jpeg', 0.00, 'public', 2221, 0, '2024-09-25 00:47:05', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -962,7 +979,32 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `address`, `rule`, `created_at`, `updated_at`) VALUES
 (10, 'admin', 'admin@gmail.com', '$2y$10$qrlxLFnanbdW8/BmKG7VcOdOq0qGD2p0SCj.v.utn6IAOQFburyy.', NULL, 'admin', '2024-09-23 03:04:19', '0000-00-00 00:00:00'),
-(11, 'user', 'user@gmail.com', '$2y$10$DvNLdD1Boo8LU/wRzq7FROaASTlF6xUqTv8V8AnhlRBLnViCGx.um', NULL, 'user', '2024-09-23 03:20:21', '0000-00-00 00:00:00');
+(11, 'user', 'user@gmail.com', '$2y$10$DvNLdD1Boo8LU/wRzq7FROaASTlF6xUqTv8V8AnhlRBLnViCGx.um', NULL, 'user', '2024-09-23 03:20:21', '0000-00-00 00:00:00'),
+(12, 'tran binh', 'kegiaumatvideptrai@gmail.com', '$2y$10$rgP4Mf9VZRmEObYOTZw/F.aQYbcdSKVOUtq3f/yw5jGzsnlcPvhke', NULL, 'user', '2024-10-08 11:33:07', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `voucher`
+--
+
+CREATE TABLE `voucher` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `deal` int(10) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `dated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `voucher`
+--
+
+INSERT INTO `voucher` (`id`, `name`, `slug`, `deal`, `created_at`, `dated_at`) VALUES
+(2, 'sale sap san', 'sale-sap-san', 14, '2024-10-07 17:00:00', '2024-10-09 17:00:00'),
+(3, 'test sale', 'test-sale', 44, '2019-10-19 17:00:00', '2025-10-08 16:25:05'),
+(4, 'hoc lai', 'hoc-lai', 50, '2024-10-09 17:00:00', '2025-01-11 17:00:00');
 
 -- --------------------------------------------------------
 
@@ -11619,6 +11661,13 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `voucher`
+--
+ALTER TABLE `voucher`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`);
+
+--
 -- Indexes for table `wards`
 --
 ALTER TABLE `wards`
@@ -11632,13 +11681,13 @@ ALTER TABLE `wards`
 -- AUTO_INCREMENT for table `bill`
 --
 ALTER TABLE `bill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `bill_details`
 --
 ALTER TABLE `bill_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -11656,7 +11705,7 @@ ALTER TABLE `district`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `province`
@@ -11668,7 +11717,13 @@ ALTER TABLE `province`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `voucher`
+--
+ALTER TABLE `voucher`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `wards`

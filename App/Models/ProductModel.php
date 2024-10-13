@@ -53,6 +53,12 @@ class ProductModel extends Database
         return true;
     }
 
+    public function getAllProduct()
+    {
+        $sql = "SELECT * FROM product";
+        $data = $this->getAll($sql);
+        return $data;
+    }
 
     public function getProduct()
     {
@@ -134,5 +140,12 @@ class ProductModel extends Database
             return true;
         }
         return false;
+    }
+
+    public function countProduct()
+    {
+        $sql = "SELECT COUNT(*) AS countProduct FROM product;";
+        $data = $this->getOne($sql);
+        return $data;
     }
 }

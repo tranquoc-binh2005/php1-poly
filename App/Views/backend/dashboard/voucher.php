@@ -1,5 +1,5 @@
 <div class="container">
-    <button data-bs-toggle="modal" data-bs-target="#addVoucher">them ma giam gia</button>
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addVoucher">them ma giam gia</button>
 
     <br> <hr><hr>
     <table class="product-table">

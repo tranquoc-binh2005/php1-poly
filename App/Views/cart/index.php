@@ -1,3 +1,4 @@
+
 <div class="system">
     <h1>Giỏ hàng</h1>
     <div class="system-row1">
@@ -66,6 +67,7 @@
     <div class="system-row3">
         <h2>
             <a href="./">Tiếp tục mua sắm</a>
+            <a class="btn btn-primary" href="./bill/historyBill">Lich su mua hang</a>
         </h2>
     </div>
 </div>

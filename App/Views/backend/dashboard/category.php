@@ -1,5 +1,5 @@
 <div class="container">
-    <button data-bs-toggle="modal" data-bs-target="#addCategories">them danh muc</button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategories">them danh muc</button>
 
     <br> <hr><hr>
     <table class="product-table">

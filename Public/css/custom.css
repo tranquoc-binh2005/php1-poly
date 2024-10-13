@@ -72,3 +72,32 @@ nav ul a{
     width: 50px; /* Đặt kích thước hình ảnh */
     height: auto;
 }
+
+
+.container-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.box {
+    background-color: lightseagreen; /* Màu nền box */
+    color: white;
+    padding: 20px;
+    font-size: 18px;
+    min-height: 300px;
+    border-radius: 8px; /* Bo góc */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+}
+
+.box p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    clear: both;
+    font-size: 100px;
+}
+

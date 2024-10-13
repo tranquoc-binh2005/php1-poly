@@ -38,7 +38,7 @@
                     <?php
                         foreach ($listCategories as $categoriesItem) {
                             echo '<div>
-                                    <a href="./product/detail/'.$categoriesItem['id'].'">'.$categoriesItem['name'].'</a>
+                                    <a href="">'.$categoriesItem['name'].'</a>
                                 </div>';
                         }
                     ?>

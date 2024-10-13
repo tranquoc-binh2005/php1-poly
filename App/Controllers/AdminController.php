@@ -23,7 +23,7 @@ class AdminController extends Controller
             header("Expires: 0");
         
             $ProductModel = $this->model("ProductModel");
-            $data = $ProductModel->getProduct(999999);
+            $data = $ProductModel->getAllProduct();
             echo "<table border='1' cellpadding='5' cellspacing='0'>";
             echo "<tr>
                     <th>Id</th>
@@ -59,6 +59,19 @@ class AdminController extends Controller
     }
     public function index()
     {
+        $ProductModel = $this->model("ProductModel");
+        $this->data['countProduct'] = $ProductModel->countProduct();
+
+        $AuthModel = $this->model("AuthModel");
+        $this->data['countUser'] = $AuthModel->countUser();
+
+        $BillModel = $this->model("BillModel");
+        $BillModel->setStatus('chuaxn');
+        $this->data['countBill'] = $BillModel->countBill();
+        $this->data['countBillTotal'] = $BillModel->countBillTotal();
+        $BillModel->setMonth('2024-10');
+        $this->data['total_price'] = $BillModel->getTotalAmountByMonth();
+
         $this->data['pageTitle'] = "Trang quan ly"; 
         $this->data['path'] = "dashboard/dashboard"; 
         $this->view('backend/dashboard/index', $this->data);
@@ -185,10 +198,49 @@ class AdminController extends Controller
 
     public function bill()
     {
+        $status = isset($_GET['selectBill']) ? $_GET['selectBill'] : "chuaxn";
+
+        $BillModel = $this->model("BillModel");
+        $BillModel->setStatus($status);
+        $this->data['listBill'] = $BillModel->getBill();
         $this->data['pageTitle'] = "Trang quan ly don hang"; 
         $this->data['path'] = "dashboard/bill"; 
+        $this->data['status'] = $status; 
         $this->view('backend/dashboard/index', $this->data);
     }
+
+    public function updateStatusBill($id){
+        $BillModel = $this->model("BillModel");
+        $BillModel->setNewStatus('danggh');
+        $BillModel->setCurrentStatus('chuaxn');
+        $BillModel->setId($id);
+        if($BillModel->updateStatus()){
+            alertSuccess("Thành công", "", "../../admin/bill");
+        }
+    }
+
+    public function destroyBill($id)
+    {
+        $BillModel = $this->model("BillModel");
+        $BillModel->setNewStatus('huygh');
+        $BillModel->setCurrentStatus('danggh');
+        $BillModel->setId($id);
+        if($BillModel->updateStatus()){
+            alertSuccess("Thành công", "", "../../admin/bill?selectBill=huygh");
+        }
+    }
+
+    public function detailBill($id){
+        $BillModel = $this->model("BillModel");
+        $BillModel->setId($id);
+
+        $this->data['detailBill'] = $BillModel->getBillWithDetails(); 
+        $this->data['pageTitle'] = "Chi tiết hoá đơn"; 
+        $this->data['path'] = "dashboard/detailbill"; 
+
+        $this->view('backend/dashboard/index', $this->data);
+    }
+
     public function voucher()
     {
         $VoucherModel = $this->model("VoucherModel");

@@ -8,7 +8,7 @@ require_once 'Core/Alert.php';
 
 require_once 'App/Trait/ProductModelGettersSetters.php';
 require_once 'App/Trait/VoucherModelGettersSetters.php';
-
+require_once 'App/Trait/BillModelGettersSetters.php';
 
 $app = new App();
 ?>

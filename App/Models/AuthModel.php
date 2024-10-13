@@ -34,4 +34,11 @@ class AuthModel extends Database
         return false;
     }
 
+    public function countUser()
+    {
+        $sql = "SELECT COUNT(*) AS countUser FROM users;";
+        $data = $this->getOne($sql);
+        return $data;
+    }
+
 }

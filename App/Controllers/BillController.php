@@ -78,10 +78,19 @@ class BillController extends Controller
             $tongtien = $_POST['tongtien'];
 
             $BillModel = $this->model("BillModel");
-            $lastId = $BillModel->createBill($name, $fullAddress, $phone, $tongtien);
+            $BillModel->setName($name);
+            $BillModel->setAddress($fullAddress);
+            $BillModel->setPhone($phone);
+            $BillModel->setTotal($tongtien);
+
+            $lastId = $BillModel->createBill();
             if($lastId){
                 foreach ($_SESSION['cart'] as $key => $value) {
-                    $BillModel->createBillDetails($lastId, $value['name'], $value['soluong'], $value['price']);
+                    $BillModel->setBill_Id($lastId);
+                    $BillModel->setProduct_Name($value['name']);
+                    $BillModel->setQuantity($value['soluong']);
+                    $BillModel->setPrice($value['price']);
+                    $BillModel->createBillDetails();
                 }
                 alertSuccess("Thanh cong", "", "../Mail/sendmail.php");
             } else {
@@ -100,5 +109,29 @@ class BillController extends Controller
         
             echo json_encode(['total' => number_format($discountedTotal, 0, ',', '.') . " VND", 'totalNum' => $discountedTotal]);
         }
+    }
+
+    public function historyBill()
+    {
+        // $status = isset($_GET['selectBill']) ? $_GET['selectBill'] : "chuaxn";
+
+        $BillModel = $this->model("BillModel");
+        $this->data['listBill'] = $BillModel->getAllBill();
+
+        $this->data['path'] = 'bill/history';
+        $this->data['pageTitle'] = "Lich su mua hang"; 
+        $this->view('home/index', $this->data);
+    }
+
+    public function detail($id)
+    {
+        $BillModel = $this->model("BillModel");
+        $BillModel->setId($id);
+
+        $this->data['detailBill'] = $BillModel->getBillWithDetails(); 
+        $this->data['pageTitle'] = "Chi tiết hoá đơn"; 
+        $this->data['path'] = "bill/detail"; 
+
+        $this->view('home/index', $this->data);
     }
 }
